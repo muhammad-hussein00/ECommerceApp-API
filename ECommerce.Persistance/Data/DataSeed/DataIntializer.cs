@@ -20,46 +20,46 @@ namespace ECommerce.Persistance.Data.DataSeed
         {
             _storeDbContext = storeDbContext;
         }
-        public void Initialize()
+        public async Task InitializeAsync()
         {
             // Checking if tables has data before seeding
-            var hasProduct = _storeDbContext.Products.Any();
-            var hasProductTypes = _storeDbContext.productTypes.Any();
-            var hasProductBrands = _storeDbContext.productBrands.Any();
+            var hasProduct = await _storeDbContext.Products.AnyAsync();
+            var hasProductTypes = await _storeDbContext.productTypes.AnyAsync();
+            var hasProductBrands = await _storeDbContext.productBrands.AnyAsync();
             if(hasProduct && hasProductTypes && hasProductBrands)
                 return;
 
             // Seed data for product types and product brands first.
             if (!hasProductTypes)
-                SeedDataFromJSON<ProductType, int>("types.json", _storeDbContext.productTypes);
+                await SeedDataFromJSONAsync<ProductType, int>("types.json", _storeDbContext.productTypes);
 
             if (!hasProductBrands)
-                SeedDataFromJSON<ProductBrand, int>("types.json", _storeDbContext.productBrands);
+                await SeedDataFromJSONAsync<ProductBrand, int>("types.json", _storeDbContext.productBrands);
 
-            _storeDbContext.SaveChanges();
+            await _storeDbContext.SaveChangesAsync();
 
             // seed data for product
             if (!hasProductTypes)
-                SeedDataFromJSON<ProductType, int>("types.json", _storeDbContext.productTypes);
+                await SeedDataFromJSONAsync<ProductType, int>("types.json", _storeDbContext.productTypes);
 
-            _storeDbContext.SaveChanges();
+            await _storeDbContext.SaveChangesAsync();
         }
 
         #region Helper methods
-        private void SeedDataFromJSON<T, TKey>(string fileName, DbSet<T> dbset) where T : BaseEntity<TKey>
+        private async Task SeedDataFromJSONAsync<T, TKey>(string fileName, DbSet<T> dbset) where T : BaseEntity<TKey>
         {
-            var filePath = @"..\ECommerce.Persistance\Data\DataSeed\JSONFiles" + fileName;
+            var filePath = @"..\ECommerce.Persistance\Data\DataSeed\JSONFiles\" + fileName;
             if(!File.Exists(filePath))
                 throw new FileNotFoundException(filePath);
             try
             {
                 var dataStream = File.OpenRead(filePath);
-                var data = JsonSerializer.Deserialize<List<T>>(dataStream, new JsonSerializerOptions
+                var data = await JsonSerializer.DeserializeAsync<List<T>>(dataStream, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
                 if(data != null)
-                    dbset.AddRange(data);
+                    await dbset.AddRangeAsync(data);
             }
             catch (Exception ex)
             {
