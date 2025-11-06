@@ -1,8 +1,11 @@
 
+using AutoMapper;
 using E_Commerce.Web.Extentions;
 using ECommerce.Domain.Contracts;
 using ECommerce.Persistance.Data.DataSeed;
 using ECommerce.Persistance.DbContexts;
+using ECommerce.Persistance.Repositories;
+using ECommerce.Services.MappingProfiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
@@ -26,6 +29,10 @@ namespace E_Commerce.Web
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped<IDataInitializer, DataIntializer>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddAutoMapper(X => X.AddProfile<ProductProfile>());
+
+
 
 
             #endregion

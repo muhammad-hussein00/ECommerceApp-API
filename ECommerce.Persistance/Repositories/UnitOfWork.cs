@@ -10,7 +10,7 @@ using ECommerce.Persistance.GenericRepository;
 
 namespace ECommerce.Persistance.Repositories
 {
-    internal class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly StoreDbContext _storeDbContext;
         private readonly Dictionary<Type, Object> _repositories = [];
