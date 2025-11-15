@@ -17,7 +17,7 @@ namespace ECommerce.Persistance.Data.Configurations
             
             builder.Property(X => X.Description).HasMaxLength(500);
 
-            builder.Property(X => X.PictureURL).HasMaxLength(200);
+            builder.Property(X => X.PictureUrl).HasMaxLength(200);
 
             builder.Property(X => X.Price).HasPrecision(18,2);
 
