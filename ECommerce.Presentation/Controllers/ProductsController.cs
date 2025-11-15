@@ -11,7 +11,7 @@ namespace ECommerce.Presentation.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    internal class ProductsController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
 

@@ -30,17 +30,17 @@ namespace ECommerce.Persistance.Data.DataSeed
                 return;
 
             // Seed data for product types and product brands first.
+            if (!hasProductBrands)
+                await SeedDataFromJSONAsync<ProductBrand, int>("brands.json", _storeDbContext.productBrands);
+
             if (!hasProductTypes)
                 await SeedDataFromJSONAsync<ProductType, int>("types.json", _storeDbContext.productTypes);
-
-            if (!hasProductBrands)
-                await SeedDataFromJSONAsync<ProductBrand, int>("types.json", _storeDbContext.productBrands);
 
             await _storeDbContext.SaveChangesAsync();
 
             // seed data for product
-            if (!hasProductTypes)
-                await SeedDataFromJSONAsync<ProductType, int>("types.json", _storeDbContext.productTypes);
+            if (!hasProduct)
+                await SeedDataFromJSONAsync<Product, int>("products.json", _storeDbContext.Products);
 
             await _storeDbContext.SaveChangesAsync();
         }
