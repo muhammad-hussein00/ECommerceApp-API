@@ -1,4 +1,3 @@
-
 using AutoMapper;
 using E_Commerce.Web.Extentions;
 using ECommerce.Domain.Contracts;
@@ -33,7 +32,7 @@ namespace E_Commerce.Web
             builder.Services.AddScoped<IDataInitializer, DataIntializer>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddAutoMapper(X => X.AddProfile<ProductProfile>());
+            builder.Services.AddAutoMapper(typeof(ServiceAssemblyReference).Assembly);
             #endregion
 
             var app = builder.Build();
@@ -46,7 +45,7 @@ namespace E_Commerce.Web
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             app.MapControllers();
