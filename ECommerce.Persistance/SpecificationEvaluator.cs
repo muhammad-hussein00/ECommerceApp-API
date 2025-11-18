@@ -19,6 +19,10 @@ namespace ECommerce.Persistance
             var query = entryPoint; // _storeContext.products
             if(specifications != null)
             {
+                if(specifications.Criteria != null)
+                {
+                    query = query.Where(specifications.Criteria);
+                }
                 if(specifications.IncludeExpressions is not null)
                 {
                     query = specifications.IncludeExpressions.Aggregate(query, (currentQuery, includeExcpression) =>
