@@ -23,6 +23,11 @@ namespace ECommerce.Persistance.GenericRepository
         public async Task AddAsync(TEntity entity) => await _storeDbContext.Set<TEntity>().AddAsync(entity);
         public void DeleteAsync(TEntity entity) => _storeDbContext.Set<TEntity>().Remove(entity);   
         public void Update(TEntity entity) => _storeDbContext.Set<TEntity>().Update(entity);
-        
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecifications<TEntity, Tkey> specifications)
+        {
+            var query = SpecificationEvaluator.CreateQuery(_storeDbContext.Set<TEntity>(), specifications);
+            return await query.ToListAsync();
+        }
     }
 }
