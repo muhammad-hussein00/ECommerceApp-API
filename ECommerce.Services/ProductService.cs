@@ -42,7 +42,6 @@ namespace ECommerce.Services
             var types = await _unitOfWork.GetRepository<ProductType, int>().GetAllAsync();
             return _mapper.Map<IEnumerable<TypeDTO>>(types);
         }
-
         public async Task<ProductDTO> GetProductByIdAsync(int id)
         {
             var spec = new ProductWithTypeAndBrandSpecification(id);
