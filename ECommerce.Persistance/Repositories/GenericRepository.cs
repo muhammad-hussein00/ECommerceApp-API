@@ -35,5 +35,10 @@ namespace ECommerce.Persistance.GenericRepository
             var query = SpecificationEvaluator.CreateQuery(_storeDbContext.Set<TEntity>(), specifications);
             return await query.FirstOrDefaultAsync();
         }
+
+        public Task<int> CountAsync(ISpecifications<TEntity, Tkey> specifications)
+        {
+            return SpecificationEvaluator.CreateQuery<TEntity, Tkey>(_storeDbContext.Set<TEntity>(), specifications).CountAsync();
+        }
     }
 }
