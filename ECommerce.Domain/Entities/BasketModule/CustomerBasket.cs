@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Domain.Entities.BasketModule
 {
-    internal class CustomerBasket
+    public class CustomerBasket
     {
         public string Id { get; set; } = null!; // Created from front-end [Guid]
         ICollection<BasketItem> Items { get; set; } = null!;
