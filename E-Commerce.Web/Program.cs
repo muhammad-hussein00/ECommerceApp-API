@@ -9,6 +9,7 @@ using ECommerce.Services.Abstraction;
 using ECommerce.Services.MappingProfiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using StackExchange.Redis;
 using System.Threading.Tasks;
 
 namespace E_Commerce.Web
@@ -33,6 +34,10 @@ namespace E_Commerce.Web
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddAutoMapper(typeof(ServiceAssemblyReference).Assembly);
+            builder.Services.AddSingleton<IConnectionMultiplexer>(options =>
+            {
+                return ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection")!);
+            });
             #endregion
 
             var app = builder.Build();
