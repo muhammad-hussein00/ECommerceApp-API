@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Domain.Entities.BasketModule
 {
-    internal class BasketItem 
+    public class BasketItem 
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;

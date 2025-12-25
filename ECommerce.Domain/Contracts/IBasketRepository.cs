@@ -9,7 +9,7 @@ namespace ECommerce.Domain.Contracts
 {
     public interface IBasketRepository
     {
-        Task<CustomerBasket?> CreateOrUpdateBasketAsync(CustomerBasket basket, TimeSpan timeToLive);
+        Task<CustomerBasket?> CreateOrUpdateBasketAsync(CustomerBasket basket, TimeSpan timeToLive = default);
         Task<bool> DeleteBasket(string BasketId);
         Task<CustomerBasket?> GetBasketAsync(string basketId);
     }
