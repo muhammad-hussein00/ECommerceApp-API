@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Persistance.Repositories
 {
-    internal class BasketRepository : IBasketRepository
+    public class BasketRepository : IBasketRepository
     {
         private readonly IDatabase _database;
 
@@ -26,15 +26,8 @@ namespace ECommerce.Persistance.Repositories
             var isCreatedOrUpdated = await _database.StringSetAsync(basket.Id, JsonBasket, (timeToLive == default) ?
                                                                              TimeSpan.FromDays(7) : timeToLive);
 
-            if (isCreatedOrUpdated)
-            {
-                var basketToReturn = await _database.StringGetAsync(JsonBasket);
-                return JsonSerializer.Deserialize<CustomerBasket>(basketToReturn!);
-            }
-            else
-            {
-                return null;
-            }
+
+            return await GetBasketAsync(basket.Id);
         } 
         #endregion
 
