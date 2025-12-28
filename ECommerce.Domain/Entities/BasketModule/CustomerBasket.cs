@@ -9,6 +9,6 @@ namespace ECommerce.Domain.Entities.BasketModule
     public class CustomerBasket
     {
         public string Id { get; set; } = null!; // Created from front-end [Guid]
-        ICollection<BasketItem> Items { get; set; } = null!;
+        public ICollection<BasketItem> Items { get; set; } = [];
     }
 }
