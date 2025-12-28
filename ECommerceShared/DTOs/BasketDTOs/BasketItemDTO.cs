@@ -10,9 +10,7 @@ namespace ECommerceShared.DTOs.BasketDTOs
     public record BasketItemDTO(int Id,
          string? ProductName,
          string? PictureUrl,
-        [Range(0,double.MaxValue)]
-        double Price,
-        [Range(0, 100)]
-        int Quantity);
+        [Range(0,double.MaxValue)] double Price,
+        [Range(0, 100)] int Quantity);
 }
 
