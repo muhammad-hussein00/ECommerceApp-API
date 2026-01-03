@@ -1,4 +1,5 @@
 using AutoMapper;
+using E_Commerce.Web.CustomeMiddlewares;
 using E_Commerce.Web.Extentions;
 using ECommerce.Domain.Contracts;
 using ECommerce.Persistance.Data.DataSeed;
@@ -49,6 +50,8 @@ namespace E_Commerce.Web
             await app.SeedDataAsync();
 
             #region Configure the HTTP request pipeline.
+
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
