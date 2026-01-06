@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ECommerce.Services.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Web.CustomeMiddlewares
 {
@@ -37,15 +38,19 @@ namespace E_Commerce.Web.CustomeMiddlewares
                 // Logging
                 _logger.LogError(ex,"Something went wrong.");
 
-                // Return custom error response
-                httpcontext.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 var problem = new ProblemDetails()
                 {
                     Title = "An unexcpected error occured.",
-                    Status = StatusCodes.Status500InternalServerError,
                     Detail = ex.Message,
-                    Instance = httpcontext.Request.Path
+                    Instance = httpcontext.Request.Path,
+                    Status = ex switch
+                    {
+                        NotFoundException => StatusCodes.Status404NotFound,
+                        _ => StatusCodes.Status500InternalServerError
+                    },
                 };
+                httpcontext.Response.StatusCode = problem.Status.Value;
+
                 await httpcontext.Response.WriteAsJsonAsync(problem);
             }
         }
