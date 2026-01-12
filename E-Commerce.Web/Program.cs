@@ -1,6 +1,7 @@
 using AutoMapper;
 using E_Commerce.Web.CustomeMiddlewares;
 using E_Commerce.Web.Extentions;
+using E_Commerce.Web.Factories;
 using ECommerce.Domain.Contracts;
 using ECommerce.Persistance.Data.DataSeed;
 using ECommerce.Persistance.DbContexts;
@@ -8,6 +9,7 @@ using ECommerce.Persistance.Repositories;
 using ECommerce.Services;
 using ECommerce.Services.Abstraction;
 using ECommerce.Services.MappingProfiles;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
@@ -43,6 +45,13 @@ namespace E_Commerce.Web
             builder.Services.AddScoped<IBasketService, BasketService>();
             builder.Services.AddScoped<ICacheRepository, CacheRepository>();
             builder.Services.AddScoped<ICacheService, CacheService>();
+
+            // Handle invalid model state response and control model state response factory.
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = ApiResponseFactory.GenerateApiValidationResponse;
+            });
+
             #endregion
 
             var app = builder.Build();
